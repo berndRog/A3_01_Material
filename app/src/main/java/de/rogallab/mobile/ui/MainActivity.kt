@@ -21,11 +21,11 @@ class MainActivity : BaseActivity(TAG) {
       setContent {
 
          AppTheme {
-//            PersonInputScreen()
+            PersonInputScreen()
 //            PersonDetailScreen(
 //               id = "db6cee2b-5f90-459a-aabe-876ef80fcd5f"
 //            )
-            PeopleListScreen()
+//            PeopleListScreen()
          }
       }
    }

@@ -13,10 +13,10 @@ import de.rogallab.mobile.R
 
 @Composable
 fun InputPhone(
-   phone: String,
-   onPhoneChange: (String) -> Unit,
-   label: String = stringResource(R.string.phone),
-   validatePhone: (String) -> Pair<Boolean, String>,
+   phone: String,                                     // State ↓
+   onPhoneChange: (String) -> Unit,                   // Event ↑
+   label: String = stringResource(R.string.phone),    // State ↓
+   validatePhone: (String) -> Pair<Boolean, String>,  // Event ↑
 ) {
    InputTextField(
       value = phone,

@@ -9,10 +9,10 @@ import androidx.compose.ui.text.input.ImeAction
 
 @Composable
 fun InputName(
-   name: String,                                   // State ↓
-   onNameChange: (String) -> Unit,                 // Event ↑
-   label: String,                                  // State ↓
-   validateName: (String) -> Pair<Boolean, String> // Composable ↑
+   name: String,                                      // State ↓
+   onNameChange: (String) -> Unit,                    // Event ↑
+   label: String,                                     // State ↓
+   validateName: (String) -> Pair<Boolean, String>    // Event ↑
 ) {
    InputTextField(
       value = name,

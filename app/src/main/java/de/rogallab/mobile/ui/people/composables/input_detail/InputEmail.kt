@@ -12,10 +12,10 @@ import de.rogallab.mobile.R
 
 @Composable
 fun InputEmail(
-   email: String,
-   onEmailChange: (String) -> Unit,
-   label: String = stringResource(R.string.email),
-   validateEmail: (String) -> Pair<Boolean, String>,
+   email: String,                                     // State ↓
+   onEmailChange: (String) -> Unit,                   // Event ↑
+   label: String = stringResource(R.string.email),   // State ↓
+   validateEmail: (String) -> Pair<Boolean, String>,  // Event ↑
 ) {
    InputTextField(
       value = email,
