@@ -88,7 +88,7 @@ class PersonViewModel(
       when (val resultData = _repository.create(_personUiStateFlow.value.person)) {
          is ResultData.Success -> {}
          is ResultData.Error ->
-            logError(TAG, "Error in create:${resultData.throwable.message}")
+            logError(TAG, resultData.throwable.message ?: "Error in create")
       }
    }
    private fun update() {
@@ -96,7 +96,7 @@ class PersonViewModel(
       when (val resultData = _repository.update(_personUiStateFlow.value.person)) {
          is ResultData.Success -> {}
          is ResultData.Error ->
-            logError(TAG, "Error in update: ${resultData.throwable.message}")
+            logError(TAG, resultData.throwable.message ?: "Error in update")
       }
    }
 
@@ -105,7 +105,7 @@ class PersonViewModel(
       when (val resultData = _repository.remove(person)) {
          is ResultData.Success -> {}
          is ResultData.Error ->
-            logError(TAG, "error in remove: ${resultData.throwable.message}")
+            logError(TAG, resultData.throwable.message ?: "Error in remove")
       }
    }
 

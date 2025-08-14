@@ -56,18 +56,18 @@ class PersonValidator(
       // isNullOrEmpty() checks if a String? is null or has a length of 0.
       // isNullOrBlank() checks if a String? is null, empty, or consists only
       // of whitespace characters (spaces, tabs, etc.).
-      if(email.isNullOrBlank()) return Pair(true, "")
-      when (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-         true -> return Pair(false, "") // email ok
-         false -> return Pair(true, _emailInValid)
+      if(email.isNullOrBlank()) return Pair(false, "")
+      return when (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+         true -> Pair(false, "") // email ok
+         false -> Pair(true, _emailInValid)
       }
    }
 
    fun validatePhone(phone: String?): Pair<Boolean, String> {
       if(phone.isNullOrBlank()) return Pair(false,"")
-      when (Patterns.PHONE.matcher(phone).matches()) {
-         true -> return Pair(false,"")   // phone ok
-         false -> return Pair(true, _phoneInValid)
+      return when (Patterns.PHONE.matcher(phone).matches()) {
+         true -> Pair(false,"")   // phone ok
+         false -> Pair(true, _phoneInValid)
       }
    }
 }

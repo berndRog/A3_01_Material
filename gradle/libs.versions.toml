@@ -1,19 +1,19 @@
 [versions]
-activityCompose = "1.12.0-alpha04"
+activityCompose = "1.12.0-alpha05"
 coilCompose = "2.7.0"
 core = "1.16.0"
-composeBom = "2025.06.01"
-googleTextFonts = "1.9.0-beta02" # 1.8.3
+composeBom = "2025.07.00"
+googleTextFonts = "1.9.0-rc01" # 1.8.3
 googleJson = "2.13.1"
 koin = "4.1.0"
 kotlinCoroutines = "1.10.2"
 kotlinxSerialization = "2.2.0"
-kotlinxSerializationJson = "1.8.1"
-lifecycle = "2.9.1"
-nav3Core = "1.0.0-alpha05"
-nav3Lifecycle = "1.0.0-alpha03"
+kotlinxSerializationJson = "1.9.0"
+lifecycle = "2.9.2"
+nav3Core = "1.0.0-alpha06"
+nav3Lifecycle = "1.0.0-alpha04"
 
-material3Adaptive = "1.2.0-alpha08"
+material3Adaptive = "1.2.0-alpha10"
 windowsizeclass = "1.3.2"
 
 retrofit = "3.0.0"
@@ -21,19 +21,19 @@ retrofitLogging = "5.1.0"
 room = "2.7.2"
 
 # testing
-androidTestCore = "1.6.1"
-androidTestRunner = "1.6.2"
+androidTestCore = "1.7.0"
+androidTestRunner = "1.7.0"
 archCore = "2.2.0"
-espresso = "3.6.1"
-extJunit = "1.2.1"
+espresso = "3.7.0"
+extJunit = "1.3.0"
 junit = "4.13.2"
-truth = "1.6.0"
-manifest = "1.9.0-beta02" #"1.8.3"
+truth = "1.7.0"
+manifest = "1.9.0-rc01" #"1.8.3"
 mockito = "5.18.0"
-mockitoKotlin = "5.4.0"
+mockitoKotlin = "6.0.0"
 
 # plugins
-agp = "8.12.0-rc01"
+agp = "8.12.0"
 kotlin = "2.2.0"    #"2.0.21"
 ksp = "2.2.0-2.0.2" #"2.0.21-1.0.27"
 

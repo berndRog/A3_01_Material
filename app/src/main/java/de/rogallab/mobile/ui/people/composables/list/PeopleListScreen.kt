@@ -58,7 +58,6 @@ fun PeopleListScreen(
    Scaffold(
       contentColor = MaterialTheme.colorScheme.onBackground,
       contentWindowInsets = WindowInsets.safeDrawing,
-      modifier = Modifier.fillMaxSize(),
       topBar = {
          TopAppBar(
             title = { Text(stringResource(R.string.peopleList)) },
@@ -69,11 +68,9 @@ fun PeopleListScreen(
             navigationIcon = {
                val activity: Activity? = LocalActivity.current
                IconButton(
-                  onClick = {
-                     logDebug(tag, "Menu navigation clicked")
-                     activity?.finish()
-                  }
-               ) {
+                  onClick = { logDebug(tag, "Menu navigation clicked")
+                               activity?.finish()
+                            }) {
                   Icon(
                      imageVector = Icons.Default.Menu,
                      contentDescription = back
@@ -92,7 +89,8 @@ fun PeopleListScreen(
          ) {
             Icon(Icons.Default.Add, "Add a contact")
          }
-      }
+      },
+      modifier = Modifier.fillMaxSize(),
    ) { innerPadding ->
 
       LazyColumn(

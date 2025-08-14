@@ -42,7 +42,7 @@ fun PersonListItem(
          .clickable { onClicked() }
    ) {
       imagePath?.let { path: String ->
-         Column(modifier = Modifier.weight(0.15f)) {
+         Column(modifier = Modifier.weight(0.2f)) {
             AsyncImage(
                model = path,
                contentDescription = "Bild der Person",
@@ -56,10 +56,10 @@ fun PersonListItem(
          }
       }
 
-      Column(modifier = Modifier
+      Column(modifier = Modifier.weight(0.8f)
          .padding(start = 4.dp)
          .padding(vertical = 2.dp)
-         .weight(0.9f)
+
       ) {
 
          Text(
@@ -86,5 +86,5 @@ fun PersonListItem(
             contentDescription = "Delete item"
          )
       }
-   } // Row
-} // PersonListItem
+   }
+}
