@@ -1,22 +1,25 @@
 package de.rogallab.mobile.data.local
 
 import android.content.Context
-import android.content.res.Resources
+import de.rogallab.mobile.Globals.FILE_NAME
 import de.rogallab.mobile.R
 import de.rogallab.mobile.domain.IAppStorage
 import de.rogallab.mobile.domain.entities.Person
 import de.rogallab.mobile.domain.utilities.logDebug
-import de.rogallab.mobile.domain.utilities.newUuid
+import java.io.File
+import java.util.Locale
 import kotlin.random.Random
 
 class Seed(
    private val _context: Context,
-   private val _appStorage: IAppStorage
+   private val _appStorage: IAppStorage,
+   private val _isTest: Boolean = false
 ) {
    var people: MutableList<Person> = mutableListOf<Person>()
-
-   private val _resources: Resources = _context.resources
+   
    private val _imagesUri = mutableListOf<String>()
+   private val _fileName = FILE_NAME
+   private val _imageDirectoryName = File(_fileName).nameWithoutExtension
 
    init {
       val firstNames = mutableListOf(
@@ -41,56 +44,47 @@ class Seed(
             "${firstName.lowercase()}." +
                "${lastName.lowercase()}@" +
                "${emailProvider.random()}"
-         val phone =
+         val phone: String =
             "0${random.nextInt(1234, 9999)} " +
                "${random.nextInt(100, 999)}-" +
                "${random.nextInt(10, 9999)}"
-         val person = Person(firstName, lastName, email, phone, null, newUuid())
+
+         val uuid = String.format(Locale.ROOT, "%02d000000-0000-0000-0000-000000000000", index+1)
+         val person = Person(firstName, lastName, email, phone, null, uuid)
          people.add(person)
       }
 
       // convert the drawables into image files
-      val drawables = mutableListOf<Int>()
-      drawables.add(0, R.drawable.man_1)
-      drawables.add(1, R.drawable.man_2)
-      drawables.add(2, R.drawable.man_3)
-      drawables.add(3, R.drawable.man_4)
-      drawables.add(4, R.drawable.man_5)
-      drawables.add(5, R.drawable.man_6)
-      drawables.add(6, R.drawable.woman_1)
-      drawables.add(7, R.drawable.woman_2)
-      drawables.add(8, R.drawable.woman_3)
-      drawables.add(9, R.drawable.woman_4)
-      drawables.add(10, R.drawable.woman_5)
+      if(!_isTest) createImages()
+   }
 
+   private fun createImages() {
+      val drawables = mutableListOf(
+         R.drawable.man_01, R.drawable.woman_01, R.drawable.man_02, R.drawable.woman_02,
+         R.drawable.man_03, R.drawable.woman_03, R.drawable.man_04, R.drawable.woman_04,
+         R.drawable.man_05, R.drawable.woman_05, R.drawable.man_06, R.drawable.woman_06,
+         R.drawable.man_07, R.drawable.woman_07, R.drawable.man_08, R.drawable.woman_08,
+         R.drawable.man_09, R.drawable.woman_09, R.drawable.man_10, R.drawable.woman_10,
+         R.drawable.man_11, R.drawable.woman_11, R.drawable.man_12, R.drawable.woman_12,
+         R.drawable.man_13, R.drawable.woman_13
+      )
+
+      var index = -1
       drawables.forEach { it: Int ->  // drawable id
-
-         _appStorage.convertDrawableToAppStorage(_context, it)?.let { uri ->
+         index++
+         val uuidString = String.format(Locale.ROOT, "%02d000000-0000-0000-0000-000000000000", index + 1)
+         // images/filename/
+         _appStorage.convertDrawableToAppStorage(
+            context = _context,
+            drawableId = it,
+            pathName = _imageDirectoryName,
+            uuidString = uuidString
+         )?.let { uri ->
             uri.path?.let { uriString ->
                logDebug("<Seed>", "Uri: $uriString")
-               _imagesUri.add(uriString)
+               people[index] = people[index].copy(imagePath = uriString)
             }
          }
-
-//         val bitmap = BitmapFactory.decodeResource(_resources, it)
-//         bitmap?.let { itbitm ->
-//            writeImageToStorage(_context, itbitm)?.let { uriPath: String? ->
-//               uriPath?.let { _imagesUri.add(uriPath) }
-//            }
-//         }
-      }
-      if (_imagesUri.size == 11) {
-         people[0] = people[0].copy(imagePath = _imagesUri[0])
-         people[1] = people[1].copy(imagePath = _imagesUri[6])
-         people[2] = people[2].copy(imagePath = _imagesUri[1])
-         people[3] = people[3].copy(imagePath = _imagesUri[7])
-         people[4] = people[4].copy(imagePath = _imagesUri[2])
-         people[5] = people[5].copy(imagePath = _imagesUri[8])
-         people[6] = people[6].copy(imagePath = _imagesUri[3])
-         people[7] = people[7].copy(imagePath = _imagesUri[9])
-         people[8] = people[8].copy(imagePath = _imagesUri[4])
-         people[9] = people[9].copy(imagePath = _imagesUri[10])
-         people[10] = people[10].copy(imagePath = _imagesUri[5])
       }
    }
 

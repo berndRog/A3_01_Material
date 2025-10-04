@@ -16,10 +16,10 @@ fun newUuid(): Uuid = Uuid.random()
 fun emptyUuid(): Uuid = Uuid.parse("00000000-0000-0000-0000-000000000000")
 */
 
-// UUID is handled as String
-fun String.as8(): String =
-   if(this.length < 8) this
-   else this.substring(0..7) + "..."
+//// UUID is handled as String
+//fun String.as8(): String =
+//   if(this.length < 8) this
+//   else this.substring(0..7) + "..."
 
 fun newUuid(): String = UUID.randomUUID().toString()
 

@@ -23,16 +23,10 @@ class MainApplication : Application() {
          // Load modules
          modules(appModules)
       }
+
    }
 
    companion object {
-
-      const val DIRECTORY_NAME = "android"
-      const val FILE_NAME = "people31.json"
-
-      const val IS_INFO = true
-      const val IS_DEBUG = true
-      const val IS_VERBOSE = true
       private const val TAG = "<-MainApplication"
    }
 }

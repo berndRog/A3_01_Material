@@ -1,7 +1,6 @@
 package de.rogallab.mobile.di
 
 import de.rogallab.mobile.data.IDataStore
-import de.rogallab.mobile.data.local.Seed
 import de.rogallab.mobile.data.local.appstorage.AppStorage
 import de.rogallab.mobile.data.local.datastore.DataStore
 import de.rogallab.mobile.data.repositories.PersonRepository
@@ -27,7 +26,10 @@ val defModules: Module = module {
     single<IDataStore> {
         DataStore(
            _context = androidContext(),
-           _appStorage = get<IAppStorage>()
+           _appStorage = get<IAppStorage>(),
+           directoryName = null,
+           fileName = null,
+           _isTest = false
         )
     }
 

@@ -11,8 +11,6 @@ import de.rogallab.mobile.domain.IAppStorage
 import de.rogallab.mobile.domain.exceptions.IoException
 import de.rogallab.mobile.domain.utilities.logError
 import de.rogallab.mobile.domain.utilities.newUuid
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -24,16 +22,21 @@ class AppStorage(
    // Convert a drawable resource to an image file in app's private storage
    override fun convertDrawableToAppStorage(
       context: Context,
-      drawableId: Int
+      drawableId: Int,
+      pathName: String,
+      uuidString: String?
    ): Uri? {
       return try {
+
+         var uuidStringLocal = uuidString
+         if(uuidStringLocal.isNullOrBlank()) uuidStringLocal = newUuid()
          // Load bitmap from drawable resource
          val resources = context.resources
          val bitmap = BitmapFactory.decodeResource(resources, drawableId)
             ?: throw IllegalArgumentException("Failed to decode drawable resource: $drawableId")
          // Save bitmap to app's private files directory
-         val imagesDir = File(context.filesDir, "images").apply { if (!exists()) mkdirs() }
-         val imageFile = File(imagesDir, "${newUuid()}.jpg")
+         val imagesDir = File(context.filesDir, "images/$pathName").apply { if (!exists()) mkdirs() }
+         val imageFile = File(imagesDir, "$uuidStringLocal.jpg")
          FileOutputStream(imageFile).use { out ->
             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out)
          }

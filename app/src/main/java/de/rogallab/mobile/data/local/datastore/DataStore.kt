@@ -1,8 +1,8 @@
 package de.rogallab.mobile.data.local.datastore
 
 import android.content.Context
-import de.rogallab.mobile.MainApplication.Companion.DIRECTORY_NAME
-import de.rogallab.mobile.MainApplication.Companion.FILE_NAME
+import de.rogallab.mobile.Globals.DIRECTORY_NAME
+import de.rogallab.mobile.Globals.FILE_NAME
 import de.rogallab.mobile.data.IDataStore
 import de.rogallab.mobile.data.local.Seed
 import de.rogallab.mobile.domain.IAppStorage
@@ -11,33 +11,30 @@ import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.domain.utilities.logError
 import de.rogallab.mobile.domain.utilities.logVerbose
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonBuilder
 import java.io.File
-import kotlin.collections.any
-import kotlin.collections.filter
-import kotlin.collections.firstOrNull
-import kotlin.collections.indexOfFirst
-import kotlin.collections.none
-import kotlin.collections.sortedBy
-import kotlin.collections.toList
-import kotlin.io.readText
-import kotlin.io.writeText
-import kotlin.text.isBlank
-import kotlin.text.lowercase
 
 class DataStore(
    private val _context: Context,
    private val _appStorage: IAppStorage,
-): IDataStore {
+   directoryName: String?,
+   fileName: String?,
+   private val _isTest: Boolean = false
+) : IDataStore {
 
    // directory and file name for the dataStore from MainApplication
    // get the Apps home directory
-   private val _appHome = _context.filesDir.toString()
-   private val _directoryName = DIRECTORY_NAME
-   private val _fileName =  FILE_NAME
+   private val _appHome:String = _context.filesDir.toString()
+
+   val filePath = getOrCreateFilePath(
+      appHome =  _appHome,
+      directoryName = directoryName ?: DIRECTORY_NAME,
+      fileName = fileName ?: FILE_NAME
+   )
 
    // list of people
    private var _people: MutableList<Person> = mutableListOf()
+   val people: List<Person>
+      get() = _people.toList()
 
    // Json serializer
    private val _json = Json {
@@ -45,19 +42,28 @@ class DataStore(
       ignoreUnknownKeys = true
    }
 
-   init {
+   override fun initialize() {
       logDebug(TAG, "init: read datastore")
       _people.clear()
+
+      // /users/home/documents/android/peoplek08.json
+      var file = File(filePath)
+      if (!file.exists() || file.readText().isBlank()) {
+         // seed _people with some data
+         val seed = Seed(_context, _appStorage, _isTest)
+         _people.addAll(seed.people)
+         logVerbose(TAG, "create(): seedData ${_people.size} people")
+         write()
+      }
+      // read people from JSON file
       read()
    }
 
    override fun selectAll(): List<Person> =
       _people.toList()
 
-   // sort case insensitive by selector
-   override fun selectAllSortedBy(
-      selector: (Person) -> String?
-   ): List<Person> =
+   // sort case-insensitive by selector
+   override fun selectAllSortedBy(selector: (Person) -> String?): List<Person> =
       _people.sortedBy { person -> selector(person)?.lowercase() }
          .toList()
 
@@ -66,7 +72,7 @@ class DataStore(
          .toList()
 
    override fun findById(id: String): Person? =
-      _people.firstOrNull { it:Person -> it.id == id }
+      _people.firstOrNull { it: Person -> it.id == id }
 
    override fun findBy(predicate: (Person) -> Boolean): Person? =
       _people.firstOrNull(predicate)
@@ -74,7 +80,7 @@ class DataStore(
    override fun insert(person: Person) {
       logVerbose(TAG, "insert: $person")
       if (_people.any { it.id == person.id })
-         throw kotlin.IllegalArgumentException("Person with id ${person.id} already exists")
+         throw IllegalArgumentException("Person with id ${person.id} already exists")
       _people.add(person)
       write()
    }
@@ -83,7 +89,7 @@ class DataStore(
       logVerbose(TAG, "update: $person")
       val index = _people.indexOfFirst { it.id == person.id }
       if (index == -1)
-         throw kotlin.IllegalArgumentException("Person with id ${person.id} does not exist")
+         throw IllegalArgumentException("Person with id ${person.id} does not exist")
       _people[index] = person
       write()
    }
@@ -91,26 +97,15 @@ class DataStore(
    override fun delete(person: Person) {
       logVerbose(TAG, "delete: $person")
       if (_people.none { it.id == person.id })
-         throw kotlin.IllegalArgumentException("Person with id ${person.id} does not exist")
+         throw IllegalArgumentException("Person with id ${person.id} does not exist")
       _people.remove(person)
       write()
    }
 
    // list of people is saved as JSON file to the user's home directory
-   // UserHome/Documents/android/people.json
    private fun read() {
       try {
-         val filePath = getFilePath(_appHome,_fileName,_directoryName)
-         // if file does not exist or is empty, return an empty list
-         val file = File(filePath)
-         if (!file.exists() || file.readText().isBlank()) {
-            // seed _people with some data
-            val seed = Seed(_context, _appStorage)
-            _people.addAll(seed.people)
-            logVerbose(TAG, "create(): seedData ${_people.size} people")
-            write()
-            return
-         }
+         // val filePath = getOrCreateFilePath(_appHome, directoryName, fileName)
          // read json from a file and convert to a list of people
          val jsonString = File(filePath).readText()
          logVerbose(TAG, jsonString)
@@ -125,12 +120,11 @@ class DataStore(
    // write the list of people to the dataStore as JSON file
    private fun write() {
       try {
-         val filePath = getFilePath(_appHome,_fileName, _directoryName)
+         // val filePath = getOrCreateFilePath(_appHome, directoryName, fileName)
          val jsonString = _json.encodeToString(_people)
          logDebug(TAG, "write(): encode JSON ${_people.size} people")
          // save to a file
-         val file = File(filePath)
-         file.writeText(jsonString)
+         File(filePath).writeText(jsonString)
          logVerbose(TAG, jsonString)
       } catch (e: Exception) {
          logError(TAG, "Failed to write: ${e.message}")
@@ -143,21 +137,34 @@ class DataStore(
       private const val TAG = "<-DataStore"
 
       // get the file path for the dataStore
-      // UserHome/Documents/android/people.json
-      private fun getFilePath(appHome: String, fileName: String, directoryName: String): String {
+      // UserHome/documents/android/people.json
+      fun getOrCreateFilePath(
+         appHome: String,
+         directoryName: String,
+         fileName: String
+      ): String {
          try {
             // the directory must exist, if not create it
             val directoryPath = "$appHome/documents/$directoryName"
-            if ( !directoryExists(directoryPath) ) {
+            if (!directoryExists(directoryPath)) {
                val result = createDirectory(directoryPath)
                if (!result) {
-                  throw kotlin.Exception("Failed to create directory: $directoryPath")
+                  throw Exception("Failed to create directory: $directoryPath")
                }
             }
+
+            // create the file path
+            val filePath = "$directoryPath/$fileName"
+            // create the file if it doesn't exist
+            val file = File(filePath)
+            if (!file.exists()) {
+               file.createNewFile()
+               logDebug(TAG, "Created new file: $filePath")
+            }
             // return the file path
-            return "$directoryPath/$fileName"
+            return filePath
          } catch (e: Exception) {
-            logError(TAG, "Failed to getFilePath or create directory; ${e.localizedMessage}")
+            logError(TAG, "Failed to getFilePath or create directory; ${e.message}")
             throw e
          }
       }

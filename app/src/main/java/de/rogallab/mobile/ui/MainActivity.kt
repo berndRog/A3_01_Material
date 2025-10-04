@@ -3,29 +3,27 @@ package de.rogallab.mobile.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.compose.runtime.SideEffect
+import de.rogallab.mobile.data.IDataStore
 import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.ui.base.BaseActivity
 import de.rogallab.mobile.ui.people.PersonViewModel
-import de.rogallab.mobile.ui.people.composables.input_detail.PersonDetailScreen
-import de.rogallab.mobile.ui.people.composables.input_detail.PersonInputScreen
 import de.rogallab.mobile.ui.people.composables.list.PeopleListScreen
 import de.rogallab.mobile.ui.theme.AppTheme
-import org.koin.androidx.viewmodel.ext.android.getViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
-import kotlin.getValue
 
 class MainActivity : BaseActivity(TAG) {
 
    // lazy initialization of the ViewModel with koin
    // Activity-scoped ViewModels viewModelStoreOwner = MainActivity
    private val _personViewModel: PersonViewModel by viewModel()
+   private val _dataStore: IDataStore by inject()
 
    override fun onCreate(savedInstanceState: Bundle?) {
       super.onCreate(savedInstanceState)
       logDebug(TAG, "_personViewModel=${System.identityHashCode(_personViewModel)}")
+
+      _dataStore.initialize()
 
       enableEdgeToEdge()
       setContent {
