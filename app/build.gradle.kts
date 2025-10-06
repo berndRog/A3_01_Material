@@ -78,7 +78,7 @@ dependencies {
    // Lifecycle utilities for Compose
    implementation (libs.androidx.lifecycle.runtime.compose)
    // https://developer.android.com/jetpack/androidx/releases/lifecycle
-   // implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+   implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
    // Ui Navigation
    // https://developer.android.com/jetpack/androidx/releases/navigation

@@ -31,8 +31,9 @@ class DataStore(
       fileName = fileName ?: FILE_NAME
    )
 
-   // list of people
-   private var _people: MutableList<Person> = mutableListOf()
+   // mutable set of people internal
+   private var _people: MutableSet<Person> = mutableSetOf()
+   // immutable list of people external
    val people: List<Person>
       get() = _people.toList()
 
@@ -79,18 +80,19 @@ class DataStore(
 
    override fun insert(person: Person) {
       logVerbose(TAG, "insert: $person")
-      if (_people.any { it.id == person.id })
-         throw IllegalArgumentException("Person with id ${person.id} already exists")
+      if (_people.any { it.id == person.id }) return
+      // throw IllegalArgumentException("Person with id ${person.id} already exists")
       _people.add(person)
       write()
    }
 
    override fun update(person: Person) {
       logVerbose(TAG, "update: $person")
-      val index = _people.indexOfFirst { it.id == person.id }
-      if (index == -1)
+      val existing = _people.firstOrNull { it.id == person.id }
+      if (existing == null)
          throw IllegalArgumentException("Person with id ${person.id} does not exist")
-      _people[index] = person
+      _people.remove(existing)
+      _people.add(person)
       write()
    }
 

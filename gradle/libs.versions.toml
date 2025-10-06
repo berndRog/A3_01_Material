@@ -7,11 +7,11 @@ googleTextFonts = "1.9.2" # 1.8.3
 googleJson = "2.13.2"
 koin = "4.1.1"
 kotlinCoroutines = "1.10.2"
-kotlinxSerialization = "2.2.0"
+kotlinxSerialization = "2.2.20"
 kotlinxSerializationJson = "1.9.0" #1.8.1
 lifecycle = "2.9.4"
 nav3Core = "1.0.0-alpha10"
-#nav3Lifecycle = "1.0.0-alpha04"
+nav3Lifecycle = "1.0.0-alpha04"
 
 material3Adaptive = "1.2.0-beta03"
 windowsizeclass = "1.4.0"
@@ -34,8 +34,8 @@ mockitoKotlin = "6.1.0"
 
 # plugins
 agp = "8.13.0"
-kotlin = "2.2.0"    #"2.0.21"
-ksp = "2.2.0-2.0.2"
+kotlin = "2.2.20"    #"2.0.21"
+ksp = "2.2.20-2.0.3"
 material3 = "1.4.0"
 animation = "1.9.2" #"2.0.21-1.0.27"
 
@@ -62,7 +62,7 @@ androidx-material3-windowsizeclass = { module = "androidx.compose.material3:mate
 # Android Lifecycle
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
-#androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "nav3Lifecycle" }
+androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "nav3Lifecycle" }
 
 # Android Navigation 3
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
@@ -116,8 +116,8 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 
 # debugging ###########################################################################
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "manifest" }
-androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
-androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
+#androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+#androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
