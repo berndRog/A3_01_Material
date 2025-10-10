@@ -60,7 +60,7 @@ fun PeopleListScreen(
    }
 
    LaunchedEffect(Unit) {
-      logDebug(tag, "PeopleListScreen launched")
+      logDebug(tag, "fetch data")
       // Trigger initial data load
       viewModel.handlePeopleIntent(PeopleIntent.Fetch)
    }

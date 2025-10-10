@@ -8,6 +8,7 @@ import de.rogallab.mobile.domain.utilities.logError
 import de.rogallab.mobile.domain.utilities.newUuid
 import de.rogallab.mobile.ui.base.updateState
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -16,12 +17,27 @@ class PersonViewModel(
    private val _validator: PersonValidator
 ): ViewModel() {
 
-   // region PersonInputScreen or PersonDetailScreen
-   // StateFlow for PersonInputScreen and PersonDetailScreen
-   private val _personUiStateFlow = MutableStateFlow(PersonUiState())
-   val personUiStateFlow = _personUiStateFlow.asStateFlow()
+   // region StateFlows and Intent handlers --------------------------------------------------------
+   // StateFlow for PeopleListScreen ---------------------------------------------------------------
+   private val _peopleUiStateFlow: MutableStateFlow<PeopleUiState> =
+      MutableStateFlow(PeopleUiState())
+   val peopleUiStateFlow: StateFlow<PeopleUiState> =
+      _peopleUiStateFlow.asStateFlow()
 
-   // transform intent into an action
+   // Transform PeopleIntent into an action
+   fun handlePeopleIntent(intent: PeopleIntent) {
+      when (intent) {
+         is PeopleIntent.Fetch -> fetch()
+      }
+   }
+
+   // StateFlow for PersonInput-/ PersonDetailScreen -----------------------------------------------
+   private val _personUiStateFlow: MutableStateFlow<PersonUiState> =
+      MutableStateFlow(PersonUiState())
+   val personUiStateFlow: StateFlow<PersonUiState> =
+      _personUiStateFlow.asStateFlow()
+
+   // Transform PersonIntent into an action --------------------------------------------------------
    fun handlePersonIntent(intent: PersonIntent) {
       when (intent) {
          is PersonIntent.FirstNameChange -> onFirstNameChange(intent.firstName)
@@ -36,39 +52,45 @@ class PersonViewModel(
          is PersonIntent.Remove -> remove(intent.person)
       }
    }
+   // endregion
 
-   private fun onFirstNameChange(firstName: String) {
+   // region Input updates (immutable copy, trimmed) -----------------------------------------------
+   private fun onFirstNameChange(firstName: String) =
       updateState(_personUiStateFlow) {
          copy(person = person.copy(firstName = firstName.trim())) }
-   }
-   private fun onLastNameChange(lastName: String) {
+   private fun onLastNameChange(lastName: String) =
       updateState(_personUiStateFlow) {
          copy(person = person.copy(lastName = lastName.trim())) }
-   }
-   private fun onEmailChange(email: String?) {
+
+   private fun onEmailChange(email: String?) =
       updateState(_personUiStateFlow) {
          copy(person = person.copy(email = email?.trim())) }
-   }
-   private fun onPhoneChange(phone: String?) {
+
+   private fun onPhoneChange(phone: String?) =
       updateState(_personUiStateFlow) {
          copy(person = person.copy(phone = phone?.trim())) }
-   }
 
-   private fun clearState() {
+   private fun clearState() =
       updateState(_personUiStateFlow) {
          copy(person = Person(id = newUuid() )) }
-   }
 
+
+   // region Fetch by id (error → navigate back to list) -------------------------------------------
    private fun fetchById(id: String) {
       logDebug(TAG, "fetchById() $id")
       _repository.findById(id)
          .onSuccess { person ->
-            updateState(_personUiStateFlow) {
-               copy(person = person ?: Person()) } // if null, create an empty
+            if (person != null) {
+               updateState(_personUiStateFlow) { copy(person = person) }
+            } else {
+               logError(TAG, "Person not found")
+            }
          }
          .onFailure { logError(TAG, it.message ?: "Error in fetchById") }
    }
+   // endregion
 
+   // region Create/Update/Remove (persist then refresh list) --------------------------
    private fun create() {
       logDebug(TAG, "createPerson")
       _repository.create(_personUiStateFlow.value.person)
@@ -89,9 +111,9 @@ class PersonViewModel(
          .onSuccess { fetch() } // reread all people
          .onFailure { logError(TAG, it.message ?: "Error in remove") }
    }
-   //endregion
+   // endregion
 
-   // region Validation
+   // region Validation ----------------------------------------------------------------------------
    // validate all input fields after user finished input into the form
    fun validate(): Boolean {
       val person = _personUiStateFlow.value.person
@@ -116,20 +138,9 @@ class PersonViewModel(
       }
       return true
    }
-   //endregion
+   // endregion
 
-   // region PeopleListScreen
-   // StateFlow for UI State People
-   private val _peopleUiStateFlow = MutableStateFlow(PeopleUiState())
-   val peopleUiStateFlow = _peopleUiStateFlow.asStateFlow()
-
-   // transform intent into an action
-   fun handlePeopleIntent(intent: PeopleIntent) {
-      when (intent) {
-         is PeopleIntent.Fetch -> fetch()
-      }
-   }
-
+   // region Fetch all (persisted → UI) ------------------------------------------------------------
    // read all people from repository
    private fun fetch() {
       logDebug(TAG, "fetch")

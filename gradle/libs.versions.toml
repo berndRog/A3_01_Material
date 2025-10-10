@@ -1,24 +1,25 @@
+# all versions are actual on 2025-10-10
 [versions]
 activityCompose = "1.12.0-alpha09"
 coilCompose = "2.7.0"
 core = "1.17.0"
-composeBom = "2025.09.01"
-googleTextFonts = "1.9.2" # 1.8.3
+composeBom = "2025.10.00"
+googleTextFonts = "1.9.3" # 1.8.3
 googleJson = "2.13.2"
 koin = "4.1.1"
 kotlinCoroutines = "1.10.2"
 kotlinxSerialization = "2.2.20"
 kotlinxSerializationJson = "1.9.0" #1.8.1
 lifecycle = "2.9.4"
-nav3Core = "1.0.0-alpha10"
+nav3Core = "1.0.0-alpha11"
 nav3Lifecycle = "1.0.0-alpha04"
 
-material3Adaptive = "1.2.0-beta03"
+material3Adaptive = "1.2.0-rc01"
 windowsizeclass = "1.4.0"
 
 retrofit = "3.0.0"
-retrofitLogging = "5.1.0"
-room = "2.8.1"
+retrofitLogging = "5.2.1"
+room = "2.8.2"
 
 # testing
 androidTestCore = "1.7.0"
@@ -28,7 +29,7 @@ espresso = "3.7.0"
 extJunit = "1.3.0"
 junit = "4.13.2"
 truth = "1.7.0"
-manifest = "1.9.2" #"1.8.3"
+manifest = "1.9.3" #"1.8.3"
 mockito = "5.20.0"
 mockitoKotlin = "6.1.0"
 
@@ -36,8 +37,6 @@ mockitoKotlin = "6.1.0"
 agp = "8.13.0"
 kotlin = "2.2.20"    #"2.0.21"
 ksp = "2.2.20-2.0.3"
-material3 = "1.4.0"
-animation = "1.9.2" #"2.0.21-1.0.27"
 
 [libraries]
 # Kotlin coroutines, datetime and serialization
@@ -53,11 +52,12 @@ androidx-ui = { module = "androidx.compose.ui:ui" }
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-animation = { module = "androidx.compose.animation:animation" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
-androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "googleTextFonts" }
 androidx-material3-adaptive = { module = "androidx.compose.material3.adaptive:adaptive-navigation-android", version.ref = "material3Adaptive" }
 androidx-material3-windowsizeclass = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "windowsizeclass" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "googleTextFonts" }
 
 # Android Lifecycle
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
@@ -77,8 +77,6 @@ androidx-room-compiler  = { module = "androidx.room:room-compiler", version.ref 
 koin-core               = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android            = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose   = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-# koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
-
 
 # Coil image processing
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
@@ -100,7 +98,6 @@ androidx-test-ext-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.
 androidx-test-ext-truth = { module = "androidx.test.ext:truth", version.ref = "truth" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidTestRunner" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-#androidx-navigation-testing = { module = "androidx.navigation:navigation-testing", version.ref = "navigation" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 androidx-arch-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "archCore" }
 
@@ -116,8 +113,6 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 
 # debugging ###########################################################################
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "manifest" }
-#androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
-#androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
