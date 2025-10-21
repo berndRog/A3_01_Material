@@ -2,6 +2,10 @@ package de.rogallab.mobile.domain.utilities
 
 import android.util.Log
 import de.rogallab.mobile.Globals
+import de.rogallab.mobile.Globals.isComposition
+import de.rogallab.mobile.Globals.isDebug
+import de.rogallab.mobile.Globals.isInfo
+import de.rogallab.mobile.Globals.isVerbose
 
 fun logError(tag: String, message: String) {
    val msg = formatMessage(message)
@@ -13,16 +17,18 @@ fun logWarning(tag: String, message: String) {
 }
 fun logInfo(tag: String, message: String) {
    val msg = formatMessage(message)
-   if(Globals.isInfo) Log.i(tag, msg)
+   if(isInfo) Log.i(tag, msg)
 }
-
 fun logDebug(tag: String, message: String) {
    val msg = formatMessage(message)
-   if (Globals.isDebug) Log.d(tag, msg)
+   if (isDebug) Log.d(tag, msg)
 }
-
 fun logVerbose(tag: String, message: String) {
-   if (Globals.isVerbose) Log.v(tag, message)
+   if (isVerbose) Log.v(tag, message)
+}
+fun logComp(tag: String, message: String) {
+   val msg = formatMessage(message)
+   if (isComposition) Log.d(tag, msg)
 }
 
 private fun formatMessage(message: String) =

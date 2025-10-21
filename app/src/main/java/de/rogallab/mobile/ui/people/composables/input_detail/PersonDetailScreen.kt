@@ -2,9 +2,15 @@ package de.rogallab.mobile.ui.people.composables.input_detail
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +26,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,6 +36,7 @@ import de.rogallab.mobile.domain.utilities.logVerbose
 import de.rogallab.mobile.ui.people.PersonIntent
 import de.rogallab.mobile.ui.people.PersonValidator
 import de.rogallab.mobile.ui.people.PersonViewModel
+import de.rogallab.mobile.ui.people.composables.SelectAndShowImage
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -79,18 +87,33 @@ fun PersonDetailScreen(
       modifier = Modifier.fillMaxSize()
    ) { innerPadding ->
 
-      PersonContent(
-         personUiState = personUiState,
-         validator = validator,
-         onFirstNameChange = {
-            viewModel.handlePersonIntent(PersonIntent.FirstNameChange(it)) },
-         onLastNameChange = {
-            viewModel.handlePersonIntent(PersonIntent.LastNameChange(it)) },
-         onEmailChange = {
-            viewModel.handlePersonIntent(PersonIntent.EmailChange(it)) },
-         onPhoneChange = {
-            viewModel.handlePersonIntent(PersonIntent.PhoneChange(it)) },
-         innerPadding = innerPadding,
-      )
+      Column(
+         modifier = Modifier
+            .padding(paddingValues = innerPadding).padding(horizontal = 16.dp)
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState())
+            .imePadding()
+      ) {
+         PersonContent(
+            personUiState = personUiState,
+            validator = validator,
+            onFirstNameChange = {
+               viewModel.handlePersonIntent(PersonIntent.FirstNameChange(it))
+            },
+            onLastNameChange = {
+               viewModel.handlePersonIntent(PersonIntent.LastNameChange(it))
+            },
+            onEmailChange = {
+               viewModel.handlePersonIntent(PersonIntent.EmailChange(it))
+            },
+            onPhoneChange = {
+               viewModel.handlePersonIntent(PersonIntent.PhoneChange(it))
+            },
+         )
+         SelectAndShowImage(
+            imageUrl = personUiState.person.imagePath,      // State ↓viewModel.imagePath,                          // State ↓
+            onImageUrlChange = { Unit }                     // Event ↑
+         )
+      }
    }
 }

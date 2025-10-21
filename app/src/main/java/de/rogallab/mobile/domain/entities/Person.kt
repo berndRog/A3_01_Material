@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 data class Person(
    val firstName: String = "",
    val lastName: String = "",
-   val email: String? = null,
-   val phone:String? = null,
+   val email: String? = "",
+   val phone:String? = "",
    val imagePath: String? = "",
    val id: String = newUuid()
 )

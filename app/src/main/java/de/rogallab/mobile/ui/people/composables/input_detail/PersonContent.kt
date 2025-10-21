@@ -1,21 +1,19 @@
 package de.rogallab.mobile.ui.people.composables.input_detail
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import de.rogallab.mobile.R
+import de.rogallab.mobile.ui.base.composables.InputValueString
 import de.rogallab.mobile.ui.people.PersonUiState
 import de.rogallab.mobile.ui.people.PersonValidator
-import de.rogallab.mobile.ui.people.composables.SelectAndShowImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,42 +23,45 @@ fun PersonContent(
    onFirstNameChange: (String) -> Unit,
    onLastNameChange: (String) -> Unit,
    onEmailChange: (String) -> Unit,
-   onPhoneChange: (String) -> Unit,
-   innerPadding: PaddingValues,
+   onPhoneChange: (String) -> Unit
 ) {
-   Column(
-      modifier = Modifier
-         .padding(paddingValues = innerPadding)
-         .padding(horizontal = 16.dp)
-         .fillMaxWidth()
-         .verticalScroll(rememberScrollState())
-         .imePadding()
-   ) {
-      InputName(
-         name = personUiState.person.firstName,
-         onNameChange = onFirstNameChange,
+   Column {
+      InputValueString(
+         value = personUiState.person.firstName,
+         onValueChange = onFirstNameChange,
          label = stringResource(R.string.firstName),
-         validateName = validator::validateFirstName,
+         leadingIcon = Icons.Outlined.Person,
+         keyboardType = KeyboardType.Text,
+         imeAction = ImeAction.Next,
+         validate = validator::validateFirstName,
       )
-      InputName(
-         name = personUiState.person.lastName,
-         onNameChange = onLastNameChange,
+      InputValueString(
+         value = personUiState.person.lastName,
+         onValueChange = onLastNameChange,
          label = stringResource(R.string.lastName),
-         validateName = validator::validateLastName,
+         leadingIcon = Icons.Outlined.Person,
+         keyboardType = KeyboardType.Text,
+         imeAction = ImeAction.Next,
+         validate = validator::validateLastName,
       )
-      InputEmail(
-         email = personUiState.person.email ?: "",
-         onEmailChange = onEmailChange,
-         validateEmail = validator::validateEmail
+      InputValueString(
+         value = personUiState.person.email ?: "",
+         onValueChange = onEmailChange,
+         label = stringResource(R.string.email),
+         leadingIcon = Icons.Outlined.Email,
+         keyboardType = KeyboardType.Email,
+         imeAction = ImeAction.Next,
+         validate = validator::validateEmail
       )
-      InputPhone(
-         phone = personUiState.person.phone ?: "",
-         onPhoneChange = onPhoneChange,
-         validatePhone = validator::validatePhone
-      )
-      SelectAndShowImage(
-         imageUrl = personUiState.person.imagePath,      // State ↓viewModel.imagePath,                          // State ↓
-         onImageUrlChange = { Unit }                     // Event ↑
+      InputValueString(
+         value = personUiState.person.phone ?: "",
+         onValueChange = onPhoneChange,
+         label = stringResource(R.string.phone),
+         leadingIcon = Icons.Outlined.Phone,
+         keyboardType = KeyboardType.Phone,
+         imeAction = ImeAction.Done,
+         validate = validator::validatePhone
       )
    }
 }
+

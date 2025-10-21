@@ -7,6 +7,7 @@ import de.rogallab.mobile.data.IDataStore
 import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.ui.base.BaseActivity
 import de.rogallab.mobile.ui.people.PersonViewModel
+import de.rogallab.mobile.ui.people.composables.input_detail.PersonInputScreen
 import de.rogallab.mobile.ui.people.composables.list.PeopleListScreen
 import de.rogallab.mobile.ui.theme.AppTheme
 import org.koin.android.ext.android.inject
@@ -29,12 +30,12 @@ class MainActivity : BaseActivity(TAG) {
       setContent {
 
          AppTheme {
-//            PersonInputScreen(viewModel = _personViewModel)
+            PersonInputScreen(viewModel = _personViewModel)
 //            PersonDetailScreen(
 //               id = "db6cee2b-5f90-459a-aabe-876ef80fcd5f",
 //               , viewModel = _personViewModel
 //            )
-            PeopleListScreen(viewModel = _personViewModel)
+//            PeopleListScreen(viewModel = _personViewModel)
          }
       }
    }

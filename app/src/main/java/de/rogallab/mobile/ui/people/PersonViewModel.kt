@@ -10,7 +10,6 @@ import de.rogallab.mobile.ui.base.updateState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 class PersonViewModel(
    private val _repository: IPersonRepository,
@@ -44,6 +43,7 @@ class PersonViewModel(
          is PersonIntent.LastNameChange -> onLastNameChange(intent.lastName)
          is PersonIntent.EmailChange -> onEmailChange(intent.email)
          is PersonIntent.PhoneChange -> onPhoneChange(intent.phone)
+         is PersonIntent.ImageChange -> onImageChange(intent.uriString)
 
          is PersonIntent.Clear -> clearState()
          is PersonIntent.FetchById -> fetchById(intent.id)
@@ -65,10 +65,13 @@ class PersonViewModel(
    private fun onEmailChange(email: String?) =
       updateState(_personUiStateFlow) {
          copy(person = person.copy(email = email?.trim())) }
-
    private fun onPhoneChange(phone: String?) =
       updateState(_personUiStateFlow) {
          copy(person = person.copy(phone = phone?.trim())) }
+   private fun onImageChange(uriString: String?) =
+      updateState(_personUiStateFlow) {
+         copy(person = person.copy(imagePath = uriString?.trim()))
+      }
 
    private fun clearState() =
       updateState(_personUiStateFlow) {
