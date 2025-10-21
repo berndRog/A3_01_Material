@@ -21,9 +21,7 @@ import kotlin.run
 @Composable
 fun SelectAndShowImage(
    imageUrl: String?,                                // State ↓
-   onImageUrlChange: (String?) -> Unit,              // Event ↑
 ) {
-
    Row(
       modifier = Modifier
          .padding(vertical = 8.dp)

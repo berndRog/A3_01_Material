@@ -108,11 +108,7 @@ fun PersonDetailScreen(
             },
             onPhoneChange = {
                viewModel.handlePersonIntent(PersonIntent.PhoneChange(it))
-            },
-         )
-         SelectAndShowImage(
-            imageUrl = personUiState.person.imagePath,      // State ↓viewModel.imagePath,                          // State ↓
-            onImageUrlChange = { Unit }                     // Event ↑
+            }
          )
       }
    }

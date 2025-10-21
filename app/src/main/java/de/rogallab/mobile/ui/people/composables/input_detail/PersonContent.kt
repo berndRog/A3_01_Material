@@ -14,6 +14,7 @@ import de.rogallab.mobile.R
 import de.rogallab.mobile.ui.base.composables.InputValueString
 import de.rogallab.mobile.ui.people.PersonUiState
 import de.rogallab.mobile.ui.people.PersonValidator
+import de.rogallab.mobile.ui.people.composables.SelectAndShowImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,7 +24,7 @@ fun PersonContent(
    onFirstNameChange: (String) -> Unit,
    onLastNameChange: (String) -> Unit,
    onEmailChange: (String) -> Unit,
-   onPhoneChange: (String) -> Unit
+   onPhoneChange: (String) -> Unit,
 ) {
    Column {
       InputValueString(
@@ -61,6 +62,9 @@ fun PersonContent(
          keyboardType = KeyboardType.Phone,
          imeAction = ImeAction.Done,
          validate = validator::validatePhone
+      )
+      SelectAndShowImage(
+         imageUrl = personUiState.person.imagePath,
       )
    }
 }
