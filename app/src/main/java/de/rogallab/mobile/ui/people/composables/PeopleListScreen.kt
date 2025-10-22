@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.people.composables.list
+package de.rogallab.mobile.ui.people.composables
 
 import android.app.Activity
 import androidx.activity.ComponentActivity

@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.people.composables.input_detail
+package de.rogallab.mobile.ui.people.composables
 
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
@@ -36,7 +36,6 @@ import de.rogallab.mobile.domain.utilities.logVerbose
 import de.rogallab.mobile.ui.people.PersonIntent
 import de.rogallab.mobile.ui.people.PersonValidator
 import de.rogallab.mobile.ui.people.PersonViewModel
-import de.rogallab.mobile.ui.people.composables.SelectAndShowImage
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)

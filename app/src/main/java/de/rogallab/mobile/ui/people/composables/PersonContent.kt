@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.people.composables.input_detail
+package de.rogallab.mobile.ui.people.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
@@ -14,7 +14,6 @@ import de.rogallab.mobile.R
 import de.rogallab.mobile.ui.base.composables.InputValueString
 import de.rogallab.mobile.ui.people.PersonUiState
 import de.rogallab.mobile.ui.people.PersonValidator
-import de.rogallab.mobile.ui.people.composables.SelectAndShowImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,4 +1,4 @@
-package de.rogallab.mobile.ui.people.composables.list
+package de.rogallab.mobile.ui.people.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -7,8 +7,7 @@ import de.rogallab.mobile.data.IDataStore
 import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.ui.base.BaseActivity
 import de.rogallab.mobile.ui.people.PersonViewModel
-import de.rogallab.mobile.ui.people.composables.input_detail.PersonInputScreen
-import de.rogallab.mobile.ui.people.composables.list.PeopleListScreen
+import de.rogallab.mobile.ui.people.composables.PersonInputScreen
 import de.rogallab.mobile.ui.theme.AppTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
