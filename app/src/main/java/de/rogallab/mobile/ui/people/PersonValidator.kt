@@ -26,9 +26,6 @@ class PersonValidator(
    private val _phoneInValid: String by lazy {
       _context.getString(R.string.errorPhone) }
 
-
-   // Validation is unrelated to state management and simply returns a result
-   // We can call the validation function directly in the Composables
    fun validateFirstName(firstName: String): Pair<Boolean, String> =
       validateString(firstName, _min, _max,_firstNameTooShort, _firstNameTooLong)
 

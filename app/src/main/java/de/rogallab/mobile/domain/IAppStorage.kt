@@ -14,8 +14,4 @@ interface IAppStorage {
       uuidString: String?
    ): Uri?
 
-   fun loadImageFromAppStorage(uri: Uri): Bitmap?
-
-   fun deleteImageOnAppStorage(pathName:String)
-
 }

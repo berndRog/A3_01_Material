@@ -24,6 +24,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,6 +33,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import de.rogallab.mobile.R
+import de.rogallab.mobile.domain.utilities.logComp
 import de.rogallab.mobile.domain.utilities.logDebug
 import de.rogallab.mobile.domain.utilities.logVerbose
 import de.rogallab.mobile.ui.people.PersonIntent
@@ -46,7 +49,8 @@ fun PersonDetailScreen(
    validator: PersonValidator = koinInject<PersonValidator>(),
 ) {
    val tag = "<-PersonDetailScreen"
-   SideEffect { logVerbose(tag, "Composition") }
+   val nComp = remember{ mutableIntStateOf(1) }
+   SideEffect { logComp(tag, "Composition #${nComp.intValue++}") }
 
    // observe the personUiStateFlow in the ViewModel
    val lifecycle = (LocalActivity.current as? ComponentActivity)?.lifecycle

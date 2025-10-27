@@ -7,10 +7,14 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import de.rogallab.mobile.R
+import de.rogallab.mobile.domain.utilities.logComp
 import de.rogallab.mobile.ui.base.composables.InputValueString
 import de.rogallab.mobile.ui.people.PersonUiState
 import de.rogallab.mobile.ui.people.PersonValidator
@@ -25,6 +29,10 @@ fun PersonContent(
    onEmailChange: (String) -> Unit,
    onPhoneChange: (String) -> Unit,
 ) {
+   val tag = "<-PersonContent"
+   val nComp = remember{ mutableIntStateOf(1) }
+   SideEffect { logComp(tag, "Composition #${nComp.intValue++}") }
+
    Column {
       InputValueString(
          value = personUiState.person.firstName,

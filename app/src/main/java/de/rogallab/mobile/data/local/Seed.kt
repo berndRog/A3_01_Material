@@ -73,7 +73,7 @@ class Seed(
       drawables.forEach { it: Int ->  // drawable id
          index++
          val uuidString = String.format(Locale.ROOT, "%02d000000-0000-0000-0000-000000000000", index + 1)
-         // images/filename/
+         // /data/data/de.rogallab.mobile.images/files/images/filename/
          _appStorage.convertDrawableToAppStorage(
             context = _context,
             drawableId = it,
@@ -85,13 +85,6 @@ class Seed(
                people[index] = people[index].copy(imagePath = uriString)
             }
          }
-      }
-   }
-
-   fun disposeImages() {
-      _imagesUri.forEach { imageUrl ->
-         logDebug("<disposeImages>", "Url $imageUrl")
-         _appStorage.deleteImageOnAppStorage(imageUrl)
       }
    }
 }
