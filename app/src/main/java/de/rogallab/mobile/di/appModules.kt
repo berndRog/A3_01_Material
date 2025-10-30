@@ -1,6 +1,7 @@
 package de.rogallab.mobile.di
 
 import de.rogallab.mobile.data.IDataStore
+import de.rogallab.mobile.data.local.Seed
 import de.rogallab.mobile.data.local.appstorage.AppStorage
 import de.rogallab.mobile.data.local.datastore.DataStore
 import de.rogallab.mobile.data.repositories.PersonRepository
@@ -17,7 +18,15 @@ import org.koin.dsl.module
 val defModules: Module = module {
     val tag = "<-defModules"
 
-    logInfo(tag, "single    -> DataStore: IDataStore")
+   logInfo(tag, "single    -> Seed")
+   single<Seed> {
+      Seed(
+         _context = androidContext(),
+         _isTest = false
+      )
+   }
+
+   logInfo(tag, "single    -> DataStore: IDataStore")
     single<IAppStorage> {
         AppStorage( _context = androidContext() )
     }
@@ -25,11 +34,10 @@ val defModules: Module = module {
     logInfo(tag, "single    -> DataStore: IDataStore")
     single<IDataStore> {
         DataStore(
-           _context = androidContext(),
-           _appStorage = get<IAppStorage>(),
            directoryName = null,
            fileName = null,
-           _isTest = false
+           _context = androidContext(),
+           _seed = get<Seed>()
         )
     }
 

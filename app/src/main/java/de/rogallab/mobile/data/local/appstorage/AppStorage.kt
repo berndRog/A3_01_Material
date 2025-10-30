@@ -16,7 +16,6 @@ class AppStorage(
 
    // Convert a drawable resource to an image file in app's private storage
    override fun convertDrawableToAppStorage(
-      context: Context,
       drawableId: Int,
       pathName: String,
       uuidString: String?
@@ -28,7 +27,7 @@ class AppStorage(
          var uuidLocal = if(uuidString.isNullOrBlank()) newUuid() else uuidString
 
          // Load bitmap from drawable resource
-         bitmap = BitmapFactory.decodeResource(context.resources, drawableId)
+         bitmap = BitmapFactory.decodeResource(_context.resources, drawableId)
             ?: throw IllegalArgumentException("Failed to decode drawable resource: $drawableId")
 
          // Prepare destination directory and file

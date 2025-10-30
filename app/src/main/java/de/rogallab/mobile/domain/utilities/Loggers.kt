@@ -1,8 +1,7 @@
 package de.rogallab.mobile.domain.utilities
 
 import android.util.Log
-import de.rogallab.mobile.Globals
-import de.rogallab.mobile.Globals.isComposition
+import de.rogallab.mobile.Globals.isComp
 import de.rogallab.mobile.Globals.isDebug
 import de.rogallab.mobile.Globals.isInfo
 import de.rogallab.mobile.Globals.isVerbose
@@ -28,7 +27,7 @@ fun logVerbose(tag: String, message: String) {
 }
 fun logComp(tag: String, message: String) {
    val msg = formatMessage(message)
-   if (isComposition) Log.d(tag, msg)
+   if (isComp) Log.d(tag, msg)
 }
 
 private fun formatMessage(message: String) =
