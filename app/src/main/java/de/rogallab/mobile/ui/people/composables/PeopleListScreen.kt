@@ -53,13 +53,10 @@ fun PeopleListScreen(
    SideEffect { logComp(tag, "Composition #${nComp.intValue++}") }
 
    // observe the peopleUiStateFlow in the ViewModel
-   val lifecycle = (LocalActivity.current as? ComponentActivity)?.lifecycle
-      ?: LocalLifecycleOwner.current.lifecycle
    val peopleUiState by viewModel.peopleUiStateFlow.collectAsStateWithLifecycle(
-      lifecycle = lifecycle,
-      minActiveState = Lifecycle.State.STARTED
+      minActiveState = Lifecycle.State.RESUMED
    )
-   LaunchedEffect(peopleUiState.isLoading, peopleUiState.people.size) {
+   SideEffect {
       logDebug(tag, "PeopleUiState: isLoading=${peopleUiState.isLoading} size=${peopleUiState.people.size}")
    }
 

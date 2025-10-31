@@ -23,6 +23,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -39,13 +40,17 @@ import de.rogallab.mobile.domain.utilities.logVerbose
 import de.rogallab.mobile.ui.people.PersonIntent
 import de.rogallab.mobile.ui.people.PersonValidator
 import de.rogallab.mobile.ui.people.PersonViewModel
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinActivityViewModel
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonDetailScreen(
    id: String,
-   viewModel: PersonViewModel,
+   viewModel: PersonViewModel = koinActivityViewModel<PersonViewModel>(),
    validator: PersonValidator = koinInject<PersonValidator>(),
 ) {
    val tag = "<-PersonDetailScreen"
@@ -53,15 +58,10 @@ fun PersonDetailScreen(
    SideEffect { logComp(tag, "Composition #${nComp.intValue++}") }
 
    // observe the personUiStateFlow in the ViewModel
-   val lifecycle = (LocalActivity.current as? ComponentActivity)?.lifecycle
-      ?: LocalLifecycleOwner.current.lifecycle
    val personUiState by viewModel.personUiStateFlow.collectAsStateWithLifecycle(
-      lifecycle = lifecycle,
-      minActiveState = Lifecycle.State.STARTED
+      minActiveState = Lifecycle.State.RESUMED,
    )
-   LaunchedEffect(personUiState.person) {
-      logDebug(tag, "PersonUiState: ${personUiState.person}")
-   }
+   SideEffect { logDebug(tag, "PersonUiState: ${personUiState.person}") }
 
    // fetch person by id
    LaunchedEffect(id) {

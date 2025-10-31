@@ -39,11 +39,12 @@ import de.rogallab.mobile.ui.people.PersonIntent
 import de.rogallab.mobile.ui.people.PersonValidator
 import de.rogallab.mobile.ui.people.PersonViewModel
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinActivityViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PersonInputScreen(
-   viewModel: PersonViewModel,
+   viewModel: PersonViewModel = koinActivityViewModel(),
    validator: PersonValidator = koinInject<PersonValidator>()
 ) {
    val tag = "<-PersonInputScreen"
@@ -51,15 +52,11 @@ fun PersonInputScreen(
    SideEffect { logComp(tag, "Composition #${nComp.intValue++}") }
 
    // observe the personUiStateFlow in the ViewModel
-   val lifecycle = (LocalActivity.current as? ComponentActivity)?.lifecycle
-      ?: LocalLifecycleOwner.current.lifecycle
    val personUiState by viewModel.personUiStateFlow.collectAsStateWithLifecycle(
-      lifecycle = lifecycle,
-      minActiveState = Lifecycle.State.STARTED
+      minActiveState = Lifecycle.State.RESUMED,
    )
-   LaunchedEffect(personUiState.person) {
-      logDebug(tag, "PersonUiState: ${personUiState.person}")
-   }
+   SideEffect { logDebug(tag, "PersonUiState: ${personUiState.person}") }
+
 
    Scaffold(
       contentColor = MaterialTheme.colorScheme.onBackground,
