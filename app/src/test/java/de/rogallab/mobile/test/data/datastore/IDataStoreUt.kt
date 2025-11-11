@@ -27,13 +27,13 @@ import kotlin.test.assertNull
 
 // problems with java version 17 and android sdk 36
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [34], application = TestApplication::class) // <- nutzt deine TestApp
+@Config(sdk = [34], application = TestApplication::class)
 class IDataStoreUt: KoinTest {
 
    @get:Rule
    val koinRule = KoinTestRule.create {
       androidContext(ApplicationProvider.getApplicationContext<Context>())
-      modules(defModulesTest)   // deine Test-Module
+      modules(defModulesTest)   // Koin DI
    }
 
    // --- DI ---

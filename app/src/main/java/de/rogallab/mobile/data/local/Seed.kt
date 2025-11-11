@@ -17,15 +17,12 @@ class Seed(
    private val _context: Context,
    private val _isTest: Boolean = false
 ): KoinComponent {
+   private val _fileName = Globals.file_name
+   private val _imageDirectoryName = File(_fileName).nameWithoutExtension
 
    private val _appStorage: IAppStorage by inject()
 
    var people: MutableList<Person> = mutableListOf<Person>()
-   
-   private val _imagesUri = mutableListOf<String>()
-   private val _fileName = Globals.file_name
-   private val _imageDirectoryName = File(_fileName).nameWithoutExtension
-
    init {
       val firstNames = mutableListOf(
          "Arne", "Berta", "Cord", "Dagmar", "Ernst", "Frieda", "Günter", "Hanna",
